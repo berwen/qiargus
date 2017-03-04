@@ -94,7 +94,9 @@ def _render_graph(graph_type, dict_data, css_file_names=None):
             <div id='maindiv${divnum}'></div>
 
             <script>
-                $main_text
+                !function() {
+                    $main_text
+                }();
             </script>
         </div>
     ''')
