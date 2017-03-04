@@ -6,6 +6,8 @@ var text_string = _params.data;
 
 var svg_location = "#maindiv${divnum}";
 
+var d3Cloud = require('d3-cloud');
+
 drawWordCloud(text_string);
 
 d3.select("#maindiv${divnum}").attr("class", "word-cloud")
@@ -50,7 +52,7 @@ function drawWordCloud(text_string){
      ])
      .range([10,100]);
 
-  d3.layout.cloud().size([width, height])
+  d3Cloud().size([width, height])
     .timeInterval(20)
     .words(word_entries)
     .fontSize(function(d) { return xScale(+d.value); })
@@ -79,5 +81,5 @@ function drawWordCloud(text_string){
         .text(function(d) { return d.key; });
   }
 
-  d3.layout.cloud().stop();
+  d3Cloud().stop();
 }

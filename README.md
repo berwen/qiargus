@@ -2,6 +2,9 @@
 
 This repo is mainly for jupyter notebook.
 
+## Environment
+* python 3.5+
+
 ## Dependencies
 * ipython
 
