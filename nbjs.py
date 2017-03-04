@@ -50,34 +50,8 @@ def set_styles(css_file_names, scoped=False):
 
 def load_js_dependecies():
     scripts = ''
-    JS_text = '''
-        requirejs.config({
-            paths: { 
-                'jquery': ['https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min'],
-                'd3': ['//cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3'],
-                'd3-cloud': ['//cdn.rawgit.com/jasondavies/d3-cloud/f00a5113/build/d3.layout.cloud'],
-                'Chart': ['//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart']
-            },
-            shim: {
-                'd3-cloud': {
-                    deps: ['d3'],
-                    exports: 'd3Cloud'
-                }
-　　　　　　  }
-        });
-
-        require(['jquery', 'd3', 'Chart'], function(data) {
-            console.log("Basic dependencies loaded.");    
-            return {};
-        });
-
-        require(['d3-cloud'], function(d3Cloud) {
-            d3.layout.cloud = d3Cloud;
-            console.log("d3-cloud loaded.");    
-            return {}
-        });
-    '''
-    scripts += '<script>' + JS_text + '</script>'
+    init_js = open(this_dir() + '/init.js', 'r').read()
+    scripts += '<script>' + init_js + '</script>'
     # 'd3-cloud': ['//cdn.rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud'],
     # scripts += get_d3_cloud_js()
 
