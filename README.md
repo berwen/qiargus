@@ -13,5 +13,6 @@ This repo is mainly for jupyter notebook.
 ### word cloud
 * type: word_cloud
 * data: string seperated by '|'
+    
     sample:
     'hello|world|hello|nbjs'
