@@ -2,6 +2,9 @@
 
 This repo is mainly for jupyter notebook.
 
+## Dependencies
+* ipython
+
 ## Interface
 
 ### nbjs.render(type, data)

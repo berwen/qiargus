@@ -3,6 +3,15 @@ import json
 import inspect, os
 from string import Template
 
+from IPython.core import display
+
+def init():
+    result = display.HTML(load_js_dependecies())
+    return result
+
+def render(graph_type, data_dict, css_file_names=None):
+    result = display.HTML(_render(graph_type, data_dict, css_file_names=None))
+    return result
 
 def this_dir():
     this_file = inspect.getfile(inspect.currentframe())
@@ -77,7 +86,7 @@ def draw_graph(type, data_dict):
 
     return JS_text.safe_substitute({'divnum': divnum, 'main_text': main_text})
 
-def render(graph_type, data_dict, css_file_names=None):
+def _render(graph_type, data_dict, css_file_names=None):
     if css_file_names is None:
         css_file_names = [graph_type]
 
