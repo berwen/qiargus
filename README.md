@@ -5,8 +5,9 @@ This repo is mainly for jupyter notebook.
 ## Interface
 
 ### nbjs.render(type, data)
-    nbjs.render('word_cloud', {'data': 'hello|world', 'width': 900, 'height': 600})
-
+```python
+nbjs.render('word_cloud', {'data': 'hello|world', 'width': 900, 'height': 600})
+```
 
 ## Support diagrams
 
