@@ -15,7 +15,9 @@ def render_graph(graph_type, dict_data, bind_css=False, css_file_names=None):
     if 'data' not in dict_data:
         dict_data['data'] = {}
 
-    utils.validate_data(graph_type, dict_data['data'])
+    # Pre-process data
+    dict_data['data'] = utils.preprocess_data(graph_type, dict_data['data'])
+
     dict_data['data'] = json.dumps(dict_data['data'])
     result = display.HTML(_render_graph(graph_type, dict_data, bind_css, css_file_names))
     return result
@@ -82,7 +84,6 @@ def _render_graph(graph_type, dict_data, bind_css=False, css_file_names=None):
     main_text = main_text_template.safe_substitute(dict_data)
 
     style = ''
-    print(css_file_names)
     if css_file_names:
         style = set_styles(css_file_names, scoped=True)
 
