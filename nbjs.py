@@ -1,6 +1,8 @@
 import random
 import json
 import inspect, os
+import utils
+
 from string import Template
 
 from IPython.core import display
@@ -9,8 +11,13 @@ def init():
     result = display.HTML(load_js_dependecies())
     return result
 
-def render(graph_type, data_dict, css_file_names=None):
-    result = display.HTML(_render(graph_type, data_dict, css_file_names=None))
+def render_graph(graph_type, dict_data, css_file_names=None):
+    if 'data' not in dict_data:
+        dict_data['data'] = {}
+
+    utils.validate_data(graph_type, dict_data['data'])
+    dict_data['data'] = json.dumps(dict_data['data'])
+    result = display.HTML(_render_graph(graph_type, dict_data, css_file_names=None))
     return result
 
 def this_dir():
@@ -31,15 +38,15 @@ def set_styles(css_file_names, scoped=False):
     else:
         return "<style scoped>" + style + "</style>"
 
-def get_d3_js():
-    js = open(this_dir() + '/lib/d3/d3.min.js', 'r').read()
+# def get_d3_js():
+#     js = open(this_dir() + '/lib/d3/d3.min.js', 'r').read()
 
-    return '<script>' + js + '</script>'
+#     return '<script>' + js + '</script>'
 
-def get_d3_cloud_js():
-    js = open(this_dir() + '/lib/d3-cloud/d3.layout.cloud.js', 'r').read()
+# def get_d3_cloud_js():
+#     js = open(this_dir() + '/lib/d3-cloud/d3.layout.cloud.js', 'r').read()
 
-    return '<script>' + js + '</script>'
+#     return '<script>' + js + '</script>'
 
 def load_js_dependecies():
     scripts = ''
@@ -76,30 +83,7 @@ def load_js_dependecies():
 
     return scripts
 
-def get_common_js():
-    return get_d3_js() + get_d3_cloud_js() + get_chart_js()
- 
-
-def draw_graph(type, data_dict):
-
-    JS_text = Template('''
-
-                <div id='maindiv${divnum}'></div>
-
-                <script>
-                    $main_text
-                </script>
-
-                ''')
-
-    divnum = int(random.uniform(0,9999999999))
-    data_dict['divnum'] = divnum
-    main_text_template = Template( open(this_dir() + '/js/' + type + '.js','r').read() )
-    main_text = main_text_template.safe_substitute(data_dict)
-
-    return JS_text.safe_substitute({'divnum': divnum, 'main_text': main_text})
-
-def _render(graph_type, data_dict, css_file_names=None):
+def _render_graph(graph_type, dict_data, css_file_names=None):
     if css_file_names is None:
         css_file_names = [graph_type]
 
@@ -116,11 +100,10 @@ def _render(graph_type, data_dict, css_file_names=None):
     ''')
 
     divnum = int(random.uniform(0,9999999999))
-    data_dict['divnum'] = divnum
-    if 'data' in data_dict:
-        data_dict['data'] = json.dumps(data_dict['data'])
+    dict_data['divnum'] = divnum
+
     main_text_template = Template( open(this_dir() + '/js/' + graph_type + '.js','r').read() )
-    main_text = main_text_template.safe_substitute(data_dict)
+    main_text = main_text_template.safe_substitute(dict_data)
 
     style = set_styles(css_file_names, scoped=True)
 
