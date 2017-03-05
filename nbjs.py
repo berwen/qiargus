@@ -11,9 +11,12 @@ def init():
     result = display.HTML(load_js_dependecies())
     return result
 
-def render_graph(graph_type, dict_data, bind_css=False, css_file_names=None):
+def render_graph(graph_type, dict_data, bind_css=None, css_file_names=None):
     if 'data' not in dict_data:
         dict_data['data'] = {}
+
+    if bind_css is None and utils.get_default_css_binding(graph_type) is not None:
+        bind_css = utils.get_default_css_binding(graph_type)
 
     # Pre-process data
     dict_data['data'] = utils.preprocess_data(graph_type, dict_data['data'])
@@ -27,7 +30,7 @@ def this_dir():
     return os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
 
-def set_styles(css_file_names, scoped=False):
+def set_styles(css_file_names, dict_data={}, scoped=False):
     if type(css_file_names) == str:
         style = open(this_dir() + '/css/' + css_file_names + '.css','r').read()
     else:
@@ -35,10 +38,15 @@ def set_styles(css_file_names, scoped=False):
         for css_file_name in css_file_names:
             style += open(this_dir() + '/css/' + css_file_name + '.css','r').read()
 
+    str_template = ''
+
     if not scoped:
-        return "<style>" + style + "</style>"
+        str_template = "<style>" + style + "</style>"
     else:
-        return "<style scoped>" + style + "</style>"
+        str_template = "<style scoped>" + style + "</style>"
+
+    html = Template(str_template)
+    return html.safe_substitute(dict_data)
 
 def get_nbjscolor():
     js = open(this_dir() + '/lib/nbjscolor/nbjscolor.js', 'r').read()
@@ -59,11 +67,13 @@ def _render_graph(graph_type, dict_data, bind_css=False, css_file_names=None):
     if bind_css and css_file_names is None:
         css_file_names = [graph_type]
 
-    JS_text = Template('''
+
+    init_html = utils.get_init_html(graph_type)
+    html = Template('''
         <div>
             $style
 
-            <div id='maindiv${divnum}'></div>
+            <div id='maindiv${divnum}'>${init_html}</div>
 
             <script>
                 !function() {
@@ -81,10 +91,10 @@ def _render_graph(graph_type, dict_data, bind_css=False, css_file_names=None):
 
     style = ''
     if css_file_names:
-        style = set_styles(css_file_names, scoped=True)
+        style = set_styles(css_file_names, dict_data, scoped=True)
 
 
-    return JS_text.safe_substitute({'divnum': divnum, 'main_text': main_text, 'style': style})
+    return html.safe_substitute({'divnum': divnum, 'init_html': init_html, 'main_text': main_text, 'style': style})
 
 
 

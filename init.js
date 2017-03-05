@@ -8,7 +8,8 @@ requirejs.config({
     'd3-scale-chromatic': ['https://d3js.org/d3-scale-chromatic.v1.min'],
     'Chart': ['//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart'],
     'echarts': ['//cdn.bootcss.com/echarts/3.4.0/echarts.min'],
-    'chroma': ['https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.2.2/chroma.min']
+    'chroma': ['https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.2.2/chroma.min'],
+    'nvd3': ['https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.5/nv.d3.min'],
   },
   shim: {
     'd3-cloud': {
@@ -26,7 +27,8 @@ requirejs.config({
     'd3-scale-chromatic': {
       deps: ['d3'],
       exports: 'd3ScaleChromatic'
-    }
+    },
+    'nvd3': ['d3']
   }
 });
 
@@ -50,5 +52,19 @@ require(['echarts'], function(echarts) {
 
 require(['chroma'], function(chroma) {
   console.log("Chroma loaded.");    
+  return {}
+});
+
+require(['nvd3'], function(chroma) {
+  var head = document.getElementsByTagName('head')[0],
+  cssURL = 'https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.5/nv.d3.min.css',
+  linkTag = document.createElement('link');
+  linkTag.id = 'nvd3style';
+  linkTag.href = cssURL;
+  linkTag.setAttribute('rel','stylesheet');
+  linkTag.setAttribute('media','all');
+  linkTag.setAttribute('type','text/css');
+  head.appendChild(linkTag);
+  console.log('nvd3 loaded.');    
   return {}
 });

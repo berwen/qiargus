@@ -1,14 +1,20 @@
+/**
+ * @status TESTED
+ */
+
 var chroma = require('chroma');
 
 var rawdata = $data;
+
+// console.log('rawdata', rawdata);
 
 var canvas = document.createElement("canvas");
 canvas.id = "canvas${divnum}";
 
 var divWrapper = document.createElement("div");
 divWrapper.id = 'wrapper${divnum}';
-divWrapper.style.width = '400px';
-divWrapper.style.height = '400px';
+divWrapper.style.width = '550px';
+divWrapper.style.height = '550px';
 
 
 document.getElementById("maindiv${divnum}").appendChild(divWrapper);
@@ -20,39 +26,32 @@ var ctx = document.getElementById("canvas${divnum}");
 
 var colorGenerator = nbjscolor.category21();
 
-var colors = [];
+var data = rawdata.data;
+var labels = [];
+var counts = [];
+var basicColors = [];
 var hoverColors = [];
-for (var i=1; i<=3; i++) {
-  colors.push(colorGenerator(i+5));
-  hoverColors.push(chroma(colors[i-1]).darken(0.3).hex());
+for (var label in data) {
+  labels.push(label);
+  counts.push(data[label]);
+  var basciColor = colorGenerator(label);
+  basicColors.push(basciColor);
+  hoverColors.push(chroma(basciColor).darken(0.3).hex());
 }
 
 
-var data = {
-    labels: [
-        "Red",
-        "Blue",
-        "Yellow"
-    ],
-    datasets: [
-        {
-            data: [300, 50, 100],
-            backgroundColor: [
-                colors[0],
-                colors[1],
-                colors[2],
-            ],
-            hoverBackgroundColor: [
-                hoverColors[0],
-                hoverColors[1],
-                hoverColors[2],
-            ]
-        }]
+var chartjsData = {
+  labels: labels,
+  datasets: [{
+    data: counts,
+    backgroundColor: basicColors,
+    hoverBackgroundColor: hoverColors
+  }]
 };
 
 var myPieChart = new Chart(ctx, {
     type: 'pie',
-    data: data,
+    data: chartjsData,
     // options: options
 });
 
