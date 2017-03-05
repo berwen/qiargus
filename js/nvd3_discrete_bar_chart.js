@@ -1,54 +1,23 @@
-var chroma = require('chroma');
+/**
+ * @status TESTED
+ */
 
-var rawdata = $data;
+var _params = $data;
+// console.log(_params);
 
 var maindiv = document.getElementById('maindiv${divnum}');
 maindiv.style.height = '420px';
 
-var colorGenerator = nbjscolor.category21();
+var colorGenerator = nbjscolor.categoryGenerator1();
 
-var historicalBarChart = [
+var chartdata = [
 {
-  key: 'Cumulative Return',
-  values: [
-  {
-    'label' : 'A' ,
-    'value' : 29.765957771107
-  } ,
-  {
-    'label' : 'B' ,
-    'value' : 0
-  } ,
-  {
-    'label' : 'C' ,
-    'value' : 32.807804682612
-  } ,
-  {
-    'label' : 'D' ,
-    'value' : 196.45946739256
-  } ,
-  {
-    'label' : 'E' ,
-    'value' : 0.19434030906893
-  } ,
-  {
-    'label' : 'F' ,
-    'value' : 98.079782601442
-  } ,
-  {
-    'label' : 'G' ,
-    'value' : 13.925743130903
-  } ,
-  {
-    'label' : 'H' ,
-    'value' : 5.1387322875705
-  }
-  ]
+  key: _params.key,
+  values: _params.values
 }
 ];
 
 
-randomSeed = 1 + Math.floor(Math.random() * 10);
 
 nv.addGraph(function() {
   var chart = nv.models.discreteBarChart()
@@ -57,7 +26,8 @@ nv.addGraph(function() {
     .staggerLabels(true)
     //.staggerLabels(historicalBarChart[0].values.length > 8)
     .showValues(true)
-    .duration(250)
+    .showLegend(true)
+    .duration(1000)
     .color(function (d, i) {
       return colorGenerator('nvd3' + randomSeed + i);
     })
@@ -65,7 +35,7 @@ nv.addGraph(function() {
     ;
 
   d3.select('#maindiv${divnum} svg')
-    .datum(historicalBarChart)
+    .datum(chartdata)
     .call(chart);
 
   nv.utils.windowResize(chart.update);

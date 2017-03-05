@@ -1,5 +1,4 @@
 import random
-import json
 import inspect, os
 import utils
 
@@ -12,16 +11,12 @@ def init():
     return result
 
 def render_graph(graph_type, dict_data, bind_css=None, css_file_names=None):
-    if 'data' not in dict_data:
-        dict_data['data'] = {}
+    # Pre-process data
+    utils.preprocess_data(graph_type, dict_data)
 
     if bind_css is None and utils.get_default_css_binding(graph_type) is not None:
         bind_css = utils.get_default_css_binding(graph_type)
-
-    # Pre-process data
-    dict_data['data'] = utils.preprocess_data(graph_type, dict_data['data'])
-
-    dict_data['data'] = json.dumps(dict_data['data'])
+    
     result = display.HTML(_render_graph(graph_type, dict_data, bind_css, css_file_names))
     return result
 

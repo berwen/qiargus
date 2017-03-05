@@ -4,9 +4,10 @@ text {
 svg {
     display: block;
 }
+
 #maindiv${divnum} svg {
     margin: 0px;
-    padding: 0px;
+    padding: 20px 0 20px;
     height: 100%;
     width: 100%;
 }

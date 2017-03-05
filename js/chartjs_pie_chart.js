@@ -4,9 +4,9 @@
 
 var chroma = require('chroma');
 
-var rawdata = $data;
+var _params = $data;
 
-// console.log('rawdata', rawdata);
+// console.log('debug', _params);
 
 var canvas = document.createElement("canvas");
 canvas.id = "canvas${divnum}";
@@ -24,9 +24,9 @@ var ctx = document.getElementById("canvas${divnum}");
 // ctx.width = 600;
 // ctx.height = 600;
 
-var colorGenerator = nbjscolor.category21();
+var colorGenerator = nbjscolor.categoryGenerator1();
 
-var data = rawdata.data;
+var data = _params.data;
 var labels = [];
 var counts = [];
 var basicColors = [];
