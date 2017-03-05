@@ -32,30 +32,36 @@ requirejs.config({
   }
 });
 
-require(['jquery', 'd3', 'Chart'], function($, d3, Chart) {
-  console.log("Basic dependencies loaded.");    
-  window.d3 = d3;
-  return {};
-});
+// require(['jquery', 'd3', 'Chart'], function($, d3, Chart) {
+//   console.log("Basic dependencies loaded.");    
+//   window.d3 = d3;
+//   return {};
+// });
 
-require(['d3-cloud', 'd3-color', 'd3-interpolate', 'd3-scale-chromatic'], function(d3Cloud) {
-  window.d3.layout.cloud = d3Cloud;
-  console.log("d3-cloud loaded.");    
-  return {}
-});
+// require(['d3-cloud', 'd3-color', 'd3-interpolate', 'd3-scale-chromatic'], function(d3Cloud) {
+//   window.d3.layout.cloud = d3Cloud;
+//   console.log("d3-cloud loaded.");    
+//   return {}
+// });
 
-require(['echarts'], function(echarts) {
-  window.echarts = echarts;
-  console.log("echarts loaded.");    
-  return {}
-});
+// require(['echarts'], function(echarts) {
+//   window.echarts = echarts;
+//   console.log("echarts loaded.");    
+//   return {}
+// });
 
-require(['chroma'], function(chroma) {
-  console.log("Chroma loaded.");    
-  return {}
-});
+// require(['chroma'], function(chroma) {
+//   console.log("Chroma loaded.");    
+//   return {}
+// });
 
-require(['nvd3'], function(chroma) {
+// require(['nvd3'], function(chroma) {
+//   console.log('nvd3 loaded.');    
+//   return {}
+// });
+
+!function() {
+  // Load nv.d3.min.css
   var head = document.getElementsByTagName('head')[0],
   cssURL = 'https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.5/nv.d3.min.css',
   linkTag = document.createElement('link');
@@ -65,6 +71,4 @@ require(['nvd3'], function(chroma) {
   linkTag.setAttribute('media','all');
   linkTag.setAttribute('type','text/css');
   head.appendChild(linkTag);
-  console.log('nvd3 loaded.');    
-  return {}
-});
+}();
