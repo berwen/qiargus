@@ -8,6 +8,7 @@ requirejs.config({
     'd3-scale-chromatic': ['https://d3js.org/d3-scale-chromatic.v1.min'],
     'Chart': ['//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart'],
     'echarts': ['//cdn.bootcss.com/echarts/3.4.0/echarts.min'],
+    'chroma': ['https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.2.2/chroma.min']
   },
   shim: {
     'd3-cloud': {
@@ -44,5 +45,10 @@ require(['d3-cloud', 'd3-color', 'd3-interpolate', 'd3-scale-chromatic'], functi
 require(['echarts'], function(echarts) {
   window.echarts = echarts;
   console.log("echarts loaded.");    
+  return {}
+});
+
+require(['chroma'], function(chroma) {
+  console.log("Chroma loaded.");    
   return {}
 });

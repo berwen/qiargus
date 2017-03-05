@@ -1,3 +1,5 @@
+var chroma = require('chroma');
+
 var rawdata = $data;
 
 var canvas = document.createElement("canvas");
@@ -16,6 +18,16 @@ var ctx = document.getElementById("canvas${divnum}");
 // ctx.width = 600;
 // ctx.height = 600;
 
+var colorGenerator = nbjscolor.category21();
+
+var colors = [];
+var hoverColors = [];
+for (var i=1; i<=3; i++) {
+  colors.push(colorGenerator(i+5));
+  hoverColors.push(chroma(colors[i-1]).darken(0.3).hex());
+}
+
+
 var data = {
     labels: [
         "Red",
@@ -26,14 +38,14 @@ var data = {
         {
             data: [300, 50, 100],
             backgroundColor: [
-                "#FF6384",
-                "#36A2EB",
-                "#FFCE56"
+                colors[0],
+                colors[1],
+                colors[2],
             ],
             hoverBackgroundColor: [
-                "#FF6384",
-                "#36A2EB",
-                "#FFCE56"
+                hoverColors[0],
+                hoverColors[1],
+                hoverColors[2],
             ]
         }]
 };

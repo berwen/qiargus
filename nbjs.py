@@ -40,22 +40,18 @@ def set_styles(css_file_names, scoped=False):
     else:
         return "<style scoped>" + style + "</style>"
 
-# def get_d3_js():
-#     js = open(this_dir() + '/lib/d3/d3.min.js', 'r').read()
+def get_nbjscolor():
+    js = open(this_dir() + '/lib/nbjscolor/nbjscolor.js', 'r').read()
 
-#     return '<script>' + js + '</script>'
+    return '<script>' + js + '</script>'
 
-# def get_d3_cloud_js():
-#     js = open(this_dir() + '/lib/d3-cloud/d3.layout.cloud.js', 'r').read()
-
-#     return '<script>' + js + '</script>'
 
 def load_js_dependecies():
     scripts = ''
     init_js = open(this_dir() + '/init.js', 'r').read()
     scripts += '<script>' + init_js + '</script>'
     # 'd3-cloud': ['//cdn.rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud'],
-    # scripts += get_d3_cloud_js()
+    scripts += get_nbjscolor()
 
     return scripts
 

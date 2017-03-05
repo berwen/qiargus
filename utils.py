@@ -13,6 +13,9 @@ def preprocess_data(graph_type, data):
 
     elif graph_type == 'word_cloud':
         assert type(data) == str or type(data) == dict
+        if type(data) == dict:
+            assert 'data' in data
+            
         if type(data) == str:
             return {'data': data}    
         else:
