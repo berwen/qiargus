@@ -1,10 +1,10 @@
 import json
+import inspect, os
 
-def validate_data(graph_type, data):
-    if graph_type == 'pie_chart':
-        assert type(data) == str
-    elif graph_type == 'word_cloud':
-        assert type(data) == str
+def this_dir():
+    this_file = inspect.getfile(inspect.currentframe())
+    return os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+
 
 # data param injected to js is a json like {'data': ... }
 def preprocess_data(graph_type, options):
@@ -13,7 +13,7 @@ def preprocess_data(graph_type, options):
 
     data = options['data']
 
-    if graph_type == 'chartjs_pie_chart':
+    if graph_type == 'chartjs_pie_chart' or graph_type == 'chartjs_doughnut_chart':
         assert type(data) == dict
         options['data'] = {
             'data': data
@@ -39,10 +39,33 @@ def preprocess_data(graph_type, options):
         assert type(data) == str or type(data) == dict
         if type(data) == dict:
             assert 'data' in data
-            
+
         options['data'] = {
             'data': data
         }
+
+    elif graph_type == 'echarts_china_map':
+        assert type(data) == dict
+
+        mapped_data = {}
+        for label in data:
+            list_data = []
+            for city_name in data[label]:
+                new_city_name = city_name
+                if city_name.endswith('市'):
+                    new_city_name = city_name[:-1]
+
+                list_data.append({
+                    'name': new_city_name,
+                    'value': float(data[label][city_name])
+                })
+            mapped_data[label] = list_data
+
+        options['data'] = {
+            'data': mapped_data,
+            'title': options.get('title')
+        }
+
     else:
         return data
 
